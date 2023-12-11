@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chessboard</title>
+    <meta charset="UTF-8">
+    <style>
+        .chess-board { border-spacing: 0; border-collapse: collapse; }
+        .chess-board th { padding: .5em; }
+        .chess-board th + th { border-bottom: 1px solid #000; }
+        .chess-board th:first-child,
+        .chess-board td:last-child { border-right: 1px solid #000; }
+        .chess-board tr:last-child td { border-bottom: 1px solid; }
+        .chess-board th:empty { border: none; }
+        .chess-board td { width: 1.5em; height: 1.5em; text-align: center; font-size: 40px; line-height: 0; cursor: pointer; }
+        .chess-board .light { background: #eee; }
+        .chess-board .dark { background: #aaa; }
+        /*.chess-board .highlight { background: #ff0; }*/
+        .chess-board .highlight {
+            position: relative;
+        }
+        .chess-board .highlight::before {
+            content: '·'; /* Middle dot character */
+            font-size: 80px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff0;
+        }
+        
+        /*
+        #notationField {
+            margin-left: 20px;
+            padding: 10px;
+            width: 100px;           
+            border: 1px solid #000;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #moveHistoryBox {
+            margin-left: 20px;
+            padding: 10px;
+            width: 100px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            align-items: center;
+            justify-content: center;
+        }
+        #moveHistoryBox > div {
+            margin-bottom: 8px; }
+        
+        
+
+        #moveHistoryBox span {
+            margin-right: 8px; 
+        }*/
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #chessContainer {
+            display: flex;
+            align-items: center;
+        }
+
+        .chess-board {
+            /* Existing chess board styles */
+            margin-right: 20px; /* Add margin to separate chessboard and notation/move history */
+        }
+
+        #moveHistoryBox {
+            padding: 10px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            width: 150px; /* Adjust the width based on your preference */
+        }
+
+        #buttonsContainer {
+            display: flex;
+            flex-direction: row;
+        }
+        #otherThenBoard {
+            display: flex;
+            flex-direction: column; /* Change to column layout */
+            align-items: center;
+        }
+        button {
+            margin-top: 10px; /* Adjust the margin between buttons */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="messageContainer"></div>
+    <div id="chessContainer">
+        <table class="chess-board">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th>a</th>
+                    <th>b</th>
+                    <th>c</th>
+                    <th>d</th>
+                    <th>e</th>
+                    <th>f</th>
+                    <th>g</th>
+                    <th>h</th>
+                </tr>
+                <tr>
+                    <th>8</th>
+                    <td class="light" onclick="handleSquareClick(0, 7)">♜</td>
+                    <td class="dark" onclick="handleSquareClick(1, 7)">♞</td>
+                    <td class="light" onclick="handleSquareClick(2, 7)">♝</td>
+                    <td class="dark" onclick="handleSquareClick(3, 7)">♛</td>
+                    <td class="light" onclick="handleSquareClick(4, 7)">♚</td>
+                    <td class="dark" onclick="handleSquareClick(5, 7)">♝</td>
+                    <td class="light" onclick="handleSquareClick(6, 7)">♞</td>
+                    <td class="dark" onclick="handleSquareClick(7, 7)">♜</td>
+                </tr>
+                <tr>
+                    <th>7</th>
+                    <td class="dark" onclick="handleSquareClick(0, 6)">♟</td>
+                    <td class="light" onclick="handleSquareClick(1, 6)">♟</td>
+                    <td class="dark" onclick="handleSquareClick(2, 6)">♟</td>
+                    <td class="light" onclick="handleSquareClick(3, 6)">♟</td>
+                    <td class="dark" onclick="handleSquareClick(4, 6)">♟</td>
+                    <td class="light" onclick="handleSquareClick(5, 6)">♟</td>
+                    <td class="dark" onclick="handleSquareClick(6, 6)">♟</td>
+                    <td class="light" onclick="handleSquareClick(7, 6)">♟</td>
+                </tr>
+                <tr>
+                    <th>6</th>
+                    <td class="light" onclick="handleSquareClick(0, 5)"></td>
+                    <td class="dark" onclick="handleSquareClick(1, 5)"></td>
+                    <td class="light" onclick="handleSquareClick(2, 5)"></td>
+                    <td class="dark" onclick="handleSquareClick(3, 5)"></td>
+                    <td class="light" onclick="handleSquareClick(4, 5)"></td>
+                    <td class="dark" onclick="handleSquareClick(5, 5)"></td>
+                    <td class="light" onclick="handleSquareClick(6, 5)"></td>
+                    <td class="dark" onclick="handleSquareClick(7, 5)"></td>
+                </tr>
+                <tr>
+                    <th>5</th>
+                    <td class="dark" onclick="handleSquareClick(0, 4)"></td>
+                    <td class="light" onclick="handleSquareClick(1, 4)"></td>
+                    <td class="dark" onclick="handleSquareClick(2, 4)"></td>
+                    <td class="light" onclick="handleSquareClick(3, 4)"></td>
+                    <td class="dark" onclick="handleSquareClick(4, 4)"></td>
+                    <td class="light" onclick="handleSquareClick(5, 4)"></td>
+                    <td class="dark" onclick="handleSquareClick(6, 4)"></td>
+                    <td class="light" onclick="handleSquareClick(7, 4)"></td>
+                </tr>
+                <tr>
+                    <th>4</th>
+                    <td class="light" onclick="handleSquareClick(0, 3)"></td>
+                    <td class="dark" onclick="handleSquareClick(1, 3)"></td>
+                    <td class="light" onclick="handleSquareClick(2, 3)"></td>
+                    <td class="dark" onclick="handleSquareClick(3, 3)"></td>
+                    <td class="light" onclick="handleSquareClick(4, 3)"></td>
+                    <td class="dark" onclick="handleSquareClick(5, 3)"></td>
+                    <td class="light" onclick="handleSquareClick(6, 3)"></td>
+                    <td class="dark" onclick="handleSquareClick(7, 3)"></td>
+                </tr>
+                <tr>
+                    <th>3</th>
+                    <td class="dark" onclick="handleSquareClick(0, 2)"></td>
+                    <td class="light" onclick="handleSquareClick(1, 2)"></td>
+                    <td class="dark" onclick="handleSquareClick(2, 2)"></td>
+                    <td class="light" onclick="handleSquareClick(3, 2)"></td>
+                    <td class="dark" onclick="handleSquareClick(4, 2)"></td>
+                    <td class="light" onclick="handleSquareClick(5, 2)"></td>
+                    <td class="dark" onclick="handleSquareClick(6, 2)"></td>
+                    <td class="light" onclick="handleSquareClick(7, 2)"></td>
+                </tr>
+                <tr>
+                    <th>2</th>
+                    <td class="light" onclick="handleSquareClick(0, 1)">♙</td>
+                    <td class="dark" onclick="handleSquareClick(1, 1)">♙</td>
+                    <td class="light" onclick="handleSquareClick(2, 1)">♙</td>
+                    <td class="dark" onclick="handleSquareClick(3, 1)">♙</td>
+                    <td class="light" onclick="handleSquareClick(4, 1)">♙</td>
+                    <td class="dark" onclick="handleSquareClick(5, 1)">♙</td>
+                    <td class="light" onclick="handleSquareClick(6, 1)">♙</td>
+                    <td class="dark" onclick="handleSquareClick(7, 1)">♙</td>
+                </tr>
+                <tr>
+                    <th>1</th>
+                        <td class="dark" onclick="handleSquareClick(0, 0)">♖</td>
+                        <td class="light" onclick="handleSquareClick(1, 0)">♘</td>
+                        <td class="dark" onclick="handleSquareClick(2, 0)">♗</td>
+                        <td class="light" onclick="handleSquareClick(3, 0)">♕</td>
+                        <td class="dark" onclick="handleSquareClick(4, 0)">♔</td>
+                        <td class="light" onclick="handleSquareClick(5, 0)">♗</td>
+                        <td class="dark" onclick="handleSquareClick(6, 0)">♘</td>
+                        <td class="light" onclick="handleSquareClick(7, 0)">♖</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="otherThenBoard">
+        <div id="moveHistoryBox">
+            
+        </div>
+        <div id="buttonsContainer">
+            <button onclick="startNewGame()">New Game</button>
+            <button onclick="undoMove()">Undo Move</button>
+        </div>
+    </div>
+
+    <script>
+        const moveHistory = [];
+        async function handleSquareClick(file, rank) {
+            const fileChar = String.fromCharCode(97 + file);
+            const rankChar = rank + 1;
+            const square = fileChar + rankChar;
+    
+            // Make an asynchronous request to the backend
+            try {
+                const response = await fetch("/get_possible_moves", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ square: square })
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+    
+                const data = await response.json();
+                const clickedSquare = document.querySelector(`.chess-board tr:nth-child(${9 - rank}) td:nth-child(${file + 2})`);
+
+                if (clickedSquare != null) {
+                    const isHighlighted = clickedSquare.classList.contains('highlight');
+                    if (isHighlighted) {
+                        //console.log("girdim");
+                        handleMove(clickedSquare.move);
+                        const highlightedSquares = document.querySelectorAll('.highlight');
+                        highlightedSquares.forEach(square => square.classList.remove('highlight'));
+                    }
+                }
+
+                if (data.piece) {
+                    console.log(`Piece at ${square}. Possible moves: ${data.moves.join(", ")}`);
+                    
+                    // Remove previous highlights
+                    const highlightedSquares = document.querySelectorAll('.highlight');
+                    highlightedSquares.forEach(square => square.classList.remove('highlight'));
+    
+                    // Highlight squares with possible moves
+                    data.moves.forEach(move => {
+                        const [a, b, file, rank] = move.split('');
+                        //console.log(move);
+                        //console.log(file);
+                        //console.log(rank);
+                        const fileIndex = file.charCodeAt(0) - 'a'.charCodeAt(0);
+                        const rankIndex = 9 - parseInt(rank);
+                        const cell = document.querySelector(`.chess-board tr:nth-child(${rankIndex + 1}) td:nth-child(${fileIndex + 2})`);
+                        cell.classList.add('highlight');
+                        cell.move = move;
+
+                        //cell.onclick = () => handleMove(move);
+
+                    });
+                } else {
+                    console.log(`No piece at ${square}`);
+                }
+            } catch (error) {
+                console.error("Error:", error.message);
+            }
+        }
+
+        async function handleMove(move) {
+
+            // Make an asynchronous request to the backend to make the move
+            move = move;
+            try {
+                const response = await fetch("/make_move", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ move:move })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.new_piece_map) {
+                    // Update the frontend chessboard based on the new piece map
+                    updateChessboard(data.new_piece_map);
+                    
+                    updateMoveHistory(data.move);
+
+                    if (data.is_checkmate) {
+                        // If it is checkmate, show a popup
+                        setTimeout(function() {
+                            window.alert("Checkmate! Game Over!");
+                        }, 10);
+
+                        //window.alert("Checkmate! Game Over!");
+                        
+                    }
+                } else {
+                    console.log(`Invalid move: ${data.message}`);
+                }
+            } catch (error) {
+                console.error("Error:", error.message);
+            }
+        }
+
+        // Function to update the chessboard based on the new piece map
+        function updateChessboard(pieceMap) {
+            const cells = document.querySelectorAll('.chess-board td');
+            // Define a mapping of piece types to symbols
+            const pieceTypeToSymbolBlack = {
+                1: '♟',
+                2: '♞',
+                3: '♝',
+                4: '♜',
+                5: '♛',
+                6: '♚'
+            };
+            const pieceTypeToSymbolWhite = {
+                1: '♙',
+                2: '♘',
+                3: '♗',
+                4: '♖',
+                5: '♕',
+                6: '♔'
+            };
+
+            cells.forEach((cell, index) => {
+                //console.log(cell);
+                //console.log(index);
+                const newIndex = 8 * (7 - Math.floor(index / 8)) + (index % 8)
+                const piece = pieceMap[newIndex];
+                var pieceSymbol;
+                // Set the content of the cell based on the piece map
+                if (piece) {
+                    if (piece.color) {
+                        pieceSymbol = pieceTypeToSymbolWhite[piece.piece_type];
+                    }   else {
+                        pieceSymbol = pieceTypeToSymbolBlack[piece.piece_type];
+                    }
+                    cell.textContent = pieceSymbol;
+                } else {
+                    cell.textContent = '';
+                }
+            });
+        }
+        function startNewGame() {
+            // Add logic here to reset the chessboard or make any necessary initialization
+            while (moveHistory.length > 0) {
+                moveHistory.pop();
+            }
+            updateMoveHistoryView();
+            handleMove("newGame");
+            console.log("New game started!");
+            showMessage("");
+        }
+
+        function undoMove() {
+            // Add logic here to reset the chessboard or make any necessary initialization
+            a = moveHistory.pop();
+            console.log(a);
+            updateMoveHistoryView();
+            handleMove("undoMove");
+            console.log("Undo Move");
+            showMessage("");
+        }
+
+        function showMessage(message) {
+            const messageContainer = document.getElementById("messageContainer");
+            messageContainer.textContent = message;
+        }
+
+       
+        function updateMoveHistory(move) {
+            if (!move) {
+                return; // Don't update if move is undefined
+            }
+            moveHistory.push({
+                notation: move
+            });
+            updateMoveHistoryView();
+            }
+        function updateMoveHistoryView() {
+            const moveHistoryBox = document.getElementById("moveHistoryBox");
+
+            // Clear existing content
+            moveHistoryBox.innerHTML = "";
+
+            // Create a list element
+            const moveList = document.createElement("ul");
+
+            // Loop through the indices of the move history
+            for (let i = 0; i < moveHistory.length/2; i++) {
+                if (2 * i + 1 == moveHistory.length) {
+                    const move1 = moveHistory[2 * i];
+                    
+                    const moveItem = document.createElement("div");
+                    moveItem.innerHTML = `<span>${i + 1}. ${move1.notation}</span>`;
+                    // Append the list item to the list
+                    moveList.appendChild(moveItem);
+                } else {
+                    const move1 = moveHistory[2 * i];
+                    const move2 = moveHistory[2 * i + 1];
+                    const moveItem = document.createElement("div");
+                    moveItem.innerHTML  = `<span>${i + 1}. ${move1.notation} ${move2.notation}</span>`;
+
+                    // Append the list item to the list
+                    moveList.appendChild(moveItem);
+                }
+            }
+
+            // Append the list to the move history box
+            moveHistoryBox.appendChild(moveList);
+        }
+    </script>
+
+</body>
+</html>
+
