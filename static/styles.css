@@ -145,11 +145,3 @@ button:active {
 #mainMenuTitle {
     margin-bottom: 20px;
 }
-
-/* Adjustments for mobile devices */
-@media (max-width: 600px) {
-    button {
-        width: 100%;
-        margin: 10px 0;
-    }
-}
