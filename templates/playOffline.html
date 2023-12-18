@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Play Offline</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body onload="startNewGame()">
+    <div id="messageContainer"></div>
+    <div id="chessContainer">
+        <table class="chess-board">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th>a</th>
+                    <th>b</th>
+                    <th>c</th>
+                    <th>d</th>
+                    <th>e</th>
+                    <th>f</th>
+                    <th>g</th>
+                    <th>h</th>
+                </tr>
+                <tr>
+                    <th>8</th>
+                    <td class="light" onclick="handleSquareClick(0, 7)">♜</td>
+                    <td class="dark" onclick="handleSquareClick(1, 7)">♞</td>
+                    <td class="light" onclick="handleSquareClick(2, 7)">♝</td>
+                    <td class="dark" onclick="handleSquareClick(3, 7)">♛</td>
+                    <td class="light" onclick="handleSquareClick(4, 7)">♚</td>
+                    <td class="dark" onclick="handleSquareClick(5, 7)">♝</td>
+                    <td class="light" onclick="handleSquareClick(6, 7)">♞</td>
+                    <td class="dark" onclick="handleSquareClick(7, 7)">♜</td>
+                </tr>
+                <tr>
+                    <th>7</th>
+                    <td class="dark" onclick="handleSquareClick(0, 6)">♟</td>
+                    <td class="light" onclick="handleSquareClick(1, 6)">♟</td>
+                    <td class="dark" onclick="handleSquareClick(2, 6)">♟</td>
+                    <td class="light" onclick="handleSquareClick(3, 6)">♟</td>
+                    <td class="dark" onclick="handleSquareClick(4, 6)">♟</td>
+                    <td class="light" onclick="handleSquareClick(5, 6)">♟</td>
+                    <td class="dark" onclick="handleSquareClick(6, 6)">♟</td>
+                    <td class="light" onclick="handleSquareClick(7, 6)">♟</td>
+                </tr>
+                <tr>
+                    <th>6</th>
+                    <td class="light" onclick="handleSquareClick(0, 5)"></td>
+                    <td class="dark" onclick="handleSquareClick(1, 5)"></td>
+                    <td class="light" onclick="handleSquareClick(2, 5)"></td>
+                    <td class="dark" onclick="handleSquareClick(3, 5)"></td>
+                    <td class="light" onclick="handleSquareClick(4, 5)"></td>
+                    <td class="dark" onclick="handleSquareClick(5, 5)"></td>
+                    <td class="light" onclick="handleSquareClick(6, 5)"></td>
+                    <td class="dark" onclick="handleSquareClick(7, 5)"></td>
+                </tr>
+                <tr>
+                    <th>5</th>
+                    <td class="dark" onclick="handleSquareClick(0, 4)"></td>
+                    <td class="light" onclick="handleSquareClick(1, 4)"></td>
+                    <td class="dark" onclick="handleSquareClick(2, 4)"></td>
+                    <td class="light" onclick="handleSquareClick(3, 4)"></td>
+                    <td class="dark" onclick="handleSquareClick(4, 4)"></td>
+                    <td class="light" onclick="handleSquareClick(5, 4)"></td>
+                    <td class="dark" onclick="handleSquareClick(6, 4)"></td>
+                    <td class="light" onclick="handleSquareClick(7, 4)"></td>
+                </tr>
+                <tr>
+                    <th>4</th>
+                    <td class="light" onclick="handleSquareClick(0, 3)"></td>
+                    <td class="dark" onclick="handleSquareClick(1, 3)"></td>
+                    <td class="light" onclick="handleSquareClick(2, 3)"></td>
+                    <td class="dark" onclick="handleSquareClick(3, 3)"></td>
+                    <td class="light" onclick="handleSquareClick(4, 3)"></td>
+                    <td class="dark" onclick="handleSquareClick(5, 3)"></td>
+                    <td class="light" onclick="handleSquareClick(6, 3)"></td>
+                    <td class="dark" onclick="handleSquareClick(7, 3)"></td>
+                </tr>
+                <tr>
+                    <th>3</th>
+                    <td class="dark" onclick="handleSquareClick(0, 2)"></td>
+                    <td class="light" onclick="handleSquareClick(1, 2)"></td>
+                    <td class="dark" onclick="handleSquareClick(2, 2)"></td>
+                    <td class="light" onclick="handleSquareClick(3, 2)"></td>
+                    <td class="dark" onclick="handleSquareClick(4, 2)"></td>
+                    <td class="light" onclick="handleSquareClick(5, 2)"></td>
+                    <td class="dark" onclick="handleSquareClick(6, 2)"></td>
+                    <td class="light" onclick="handleSquareClick(7, 2)"></td>
+                </tr>
+                <tr>
+                    <th>2</th>
+                    <td class="light" onclick="handleSquareClick(0, 1)">♙</td>
+                    <td class="dark" onclick="handleSquareClick(1, 1)">♙</td>
+                    <td class="light" onclick="handleSquareClick(2, 1)">♙</td>
+                    <td class="dark" onclick="handleSquareClick(3, 1)">♙</td>
+                    <td class="light" onclick="handleSquareClick(4, 1)">♙</td>
+                    <td class="dark" onclick="handleSquareClick(5, 1)">♙</td>
+                    <td class="light" onclick="handleSquareClick(6, 1)">♙</td>
+                    <td class="dark" onclick="handleSquareClick(7, 1)">♙</td>
+                </tr>
+                <tr>
+                    <th>1</th>
+                        <td class="dark" onclick="handleSquareClick(0, 0)">♖</td>
+                        <td class="light" onclick="handleSquareClick(1, 0)">♘</td>
+                        <td class="dark" onclick="handleSquareClick(2, 0)">♗</td>
+                        <td class="light" onclick="handleSquareClick(3, 0)">♕</td>
+                        <td class="dark" onclick="handleSquareClick(4, 0)">♔</td>
+                        <td class="light" onclick="handleSquareClick(5, 0)">♗</td>
+                        <td class="dark" onclick="handleSquareClick(6, 0)">♘</td>
+                        <td class="light" onclick="handleSquareClick(7, 0)">♖</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="otherThenBoard">
+        <div id="moveHistoryBox">
+            
+        </div>
+        <div id="buttonsContainer">
+            <button onclick="startNewGame()">New Game</button>
+            <button onclick="undoMove()">Undo Move</button>
+        </div>
+    </div>
+    
+    <script src="static/playScripts.js"></script>
+</body>
+</html>
+
