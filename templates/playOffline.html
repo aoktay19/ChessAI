@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="static/styles.css">
 </head>
-<body onload="startNewGame()">
+<body onload="initPlayOffline()">
     <div id="messageContainer"></div>
     <div id="chessContainer">
         <table class="chess-board">
@@ -116,6 +116,16 @@
     <div id="otherThenBoard">
         <div id="moveHistoryBox">
             
+        </div>
+        <div id="timerContainer">
+            <div id="timerPlayer1">
+                <span>White:</span>
+                <span id="timerValuePlayer1">03:00</span>
+            </div>
+            <div id="timerPlayer2">
+                <span>Black:</span>
+                <span id="timerValuePlayer2">03:00</span>
+            </div>
         </div>
         <div id="buttonsContainer">
             <button onclick="startNewGame()">New Game</button>

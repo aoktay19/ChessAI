@@ -1,5 +1,9 @@
 //scripts.js
-
+let timerPlayer1;
+let timerPlayer2;
+let currentPlayer = 1;
+let player1Time = 180; // 3 minutes in seconds
+let player2Time = 180; // 3 minutes in seconds
 const moveHistory = [];
 async function handleSquareClick(file, rank) {
     const fileChar = String.fromCharCode(97 + file);
@@ -28,6 +32,7 @@ async function handleSquareClick(file, rank) {
             if (isHighlighted) {
                 //console.log("girdim");
                 handleMove(clickedSquare.move);
+                switchPlayer();
                 const highlightedSquares = document.querySelectorAll('.highlight');
                 highlightedSquares.forEach(square => square.classList.remove('highlight'));
             }
@@ -214,3 +219,43 @@ function updateMoveHistoryView() {
     moveHistoryBox.appendChild(moveList);
 }
 
+// Global variables for timers
+
+
+function startTimers() {
+    timerPlayer1 = setInterval(updateTimer, 1000, 'timerValuePlayer1');
+    timerPlayer2 = setInterval(updateTimer, 1000, 'timerValuePlayer2');
+}
+
+function updateTimer(timerId) {
+    const timerElement = document.getElementById(timerId);
+
+    if (currentPlayer === 1 && timerId === 'timerValuePlayer1') {
+        player1Time--;
+    } else if (currentPlayer === 2 && timerId === 'timerValuePlayer2'){
+        player2Time--;
+    }
+    
+    const minutes = Math.floor(timerId === 'timerValuePlayer1' ? player1Time / 60 : player2Time / 60);
+    const seconds = timerId === 'timerValuePlayer1' ? player1Time % 60 : player2Time % 60;
+
+    const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    timerElement.textContent = formattedTime;
+
+    if (player1Time === 0 || player2Time === 0) {
+        clearInterval(timerPlayer1);
+        clearInterval(timerPlayer2);
+        alert(`Player ${currentPlayer} has run out of time. Game over!`);
+    }
+    
+}
+
+function switchPlayer() {
+    currentPlayer = currentPlayer === 1 ? 2 : 1;
+}
+
+function initPlayOffline() {
+    startNewGame();
+    startTimers(); 
+    // Add other function calls as needed
+}
