@@ -1,0 +1,6 @@
+HTML's will create piecemap from its input piece_map
+Map flip button
+Map flip after each offline move (maybe)
+Time selection
+Renk seçimi menüsü kapanmıyor kapanırsa da playwithAI açılıyıor
+return to main menu button ekle

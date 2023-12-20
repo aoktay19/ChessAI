@@ -3,12 +3,12 @@ from flask import Flask, render_template, jsonify, request
 import chess
 from chess import Board, Piece
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='pages')
 app.static_folder = 'static'
 
-current_board = Board()
-
-print(current_board.piece_map())
+current_board = chess.Board()
+#TODO: use below code to apply mirror to pieces
+#current_board = current_board.transform(chess.flip_vertical)
 initial_piece_map = current_board.piece_map()
 
 
@@ -20,8 +20,22 @@ def index():
 def play_offline():
     return render_template('playOffline.html', piece_map=initial_piece_map)
 
+@app.route('/playWithAI')
+def play_withAI():
+    color = request.args.get('color', default=None)
+    print("renk: ", color == "black")
+    """if color == "black":
+        move = getAIMove()
+        print(move)
+        makeMove = chess.Move.from_uci(move)
+        current_board.push(makeMove)"""
+    piece_map = current_board.piece_map()
+    return render_template('playWithAI.html', piece_map=piece_map, color=color)
+
+
 @app.route('/make_move', methods=['POST'])
 def make_move():
+    #TODO: check is it checkmate in AIMove
     data = request.json
     move = data['move']
     if move == "newGame":
@@ -30,6 +44,10 @@ def make_move():
     elif move == "undoMove":
         current_board.pop()
         return jsonify({'success': True, 'new_piece_map': current_board.piece_map(), 'is_checkmate': current_board.is_checkmate()})
+    elif move == "AIMove":
+        move = getAIMove()
+
+
     makeMove = chess.Move.from_uci(move)
     san_move = current_board.san(makeMove)
     if current_board.is_legal(makeMove):
@@ -56,6 +74,11 @@ def get_possible_moves():
         return jsonify({'piece': piece.symbol(), 'moves': legal_moves})
     else:
         return jsonify({'piece': None, 'moves': []})
+
+def getAIMove():
+    move_list = [move.uci() for move in current_board.legal_moves]
+    return move_list[0]
+
 
 if __name__ == '__main__':
     app.run(debug=True)

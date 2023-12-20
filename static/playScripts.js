@@ -1,9 +1,12 @@
 //scripts.js
+let maxTime = 180;
 let timerPlayer1;
 let timerPlayer2;
 let currentPlayer = 1;
-let player1Time = 180; // 3 minutes in seconds
-let player2Time = 180; // 3 minutes in seconds
+let player1Time = maxTime; // 3 minutes in seconds
+let player2Time = maxTime; // 3 minutes in seconds
+let isplayingWithAI = false;
+
 const moveHistory = [];
 async function handleSquareClick(file, rank) {
     const fileChar = String.fromCharCode(97 + file);
@@ -30,11 +33,16 @@ async function handleSquareClick(file, rank) {
         if (clickedSquare != null) {
             const isHighlighted = clickedSquare.classList.contains('highlight');
             if (isHighlighted) {
-                //console.log("girdim");
                 handleMove(clickedSquare.move);
                 switchPlayer();
                 const highlightedSquares = document.querySelectorAll('.highlight');
                 highlightedSquares.forEach(square => square.classList.remove('highlight'));
+                setTimeout(function () {
+                    if (isplayingWithAI) {
+                    handleMove("AIMove");
+                }
+                }, 1000);
+
             }
         }
 
@@ -48,16 +56,11 @@ async function handleSquareClick(file, rank) {
             // Highlight squares with possible moves
             data.moves.forEach(move => {
                 const [a, b, file, rank] = move.split('');
-                //console.log(move);
-                //console.log(file);
-                //console.log(rank);
                 const fileIndex = file.charCodeAt(0) - 'a'.charCodeAt(0);
                 const rankIndex = 9 - parseInt(rank);
                 const cell = document.querySelector(`.chess-board tr:nth-child(${rankIndex + 1}) td:nth-child(${fileIndex + 2})`);
                 cell.classList.add('highlight');
                 cell.move = move;
-
-                //cell.onclick = () => handleMove(move);
 
             });
         } else {
@@ -71,7 +74,6 @@ async function handleSquareClick(file, rank) {
 async function handleMove(move) {
 
     // Make an asynchronous request to the backend to make the move
-    move = move;
     try {
         const response = await fetch("/make_move", {
             method: "POST",
@@ -132,8 +134,7 @@ function updateChessboard(pieceMap) {
     };
 
     cells.forEach((cell, index) => {
-        //console.log(cell);
-        //console.log(index);
+
         const newIndex = 8 * (7 - Math.floor(index / 8)) + (index % 8)
         const piece = pieceMap[newIndex];
         var pieceSymbol;
@@ -159,12 +160,18 @@ function startNewGame() {
     handleMove("newGame");
     console.log("New game started!");
     showMessage("");
+    player1Time = maxTime;
+    player2Time = maxTime;
+    currentPlayer = 1;
 }
 
 function undoMove() {
     // Add logic here to reset the chessboard or make any necessary initialization
-    a = moveHistory.pop();
-    console.log(a);
+    moveHistory.pop();
+    if (isplayingWithAI) {
+        moveHistory.pop()
+        handleMove("undoMove");
+    }
     updateMoveHistoryView();
     handleMove("undoMove");
     console.log("Undo Move");
@@ -253,9 +260,29 @@ function updateTimer(timerId) {
 function switchPlayer() {
     currentPlayer = currentPlayer === 1 ? 2 : 1;
 }
-
+function initPlayAI(color) {
+    startNewGame()
+    isplayingWithAI = true;
+    if (color === "black") {
+        setTimeout(function () {
+            
+            handleMove("AIMove");
+        
+        }, 500);
+    }
+}
 function initPlayOffline() {
     startNewGame();
+    isplayingWithAI = false;
     startTimers(); 
     // Add other function calls as needed
 }
+
+function rotateBoard() {
+    /*
+    *  TODO: Fill the rotation function to rotate after each move.
+    *   Also rotate if player is black when playing versus AI.
+    */
+}
+
+
