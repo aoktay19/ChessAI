@@ -153,6 +153,7 @@ function updateChessboard(pieceMap) {
 }
 function startNewGame() {
     // Add logic here to reset the chessboard or make any necessary initialization
+
     while (moveHistory.length > 0) {
         moveHistory.pop();
     }

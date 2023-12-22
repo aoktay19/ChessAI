@@ -1,4 +1,3 @@
-HTML's will create piecemap from its input piece_map
 Map flip button
 Map flip after each offline move (maybe)
 Time selection
@@ -11,4 +10,6 @@ play vs stockfish konulabilir
 stockfish vs AI konulabilir
 analiz kısmı konulabilir
 maç bittikten sonra fen halini verebilir
-
+Bitiriş ekranını düzelt
+Her hamleden sonra berabere checklesin
+python chess outcome

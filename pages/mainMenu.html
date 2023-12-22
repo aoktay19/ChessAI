@@ -13,7 +13,6 @@
         </div>
         <div id="buttonsContainer">
             <button onclick="openColorSelection()">Play with AI</button>
-            <button onclick="openColorSelection()">renk</button>
             <button onclick="playOffline()">Play Offline</button>
 
         </div>
@@ -24,8 +23,8 @@
             <span class="close" id="closeColorSelection">&times;</span>
             <p>Choose your color:</p>
             <div class="buttonsContainer">
-                <button id="whiteButton">Play as White</button>
-                <button id="blackButton">Play as Black</button>
+                <button onclick= "selectColor('white')" id="whiteButton">Play as White</button>
+                <button  onclick= "selectColor('black')" id="blackButton">Play as Black</button>
             </div>
         </div>
     </div>

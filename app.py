@@ -1,14 +1,18 @@
 # app.py (Flask backend)
 from flask import Flask, render_template, jsonify, request
 import chess
+import chess.engine
 from chess import Board, Piece
+from stockfish import Stockfish
 
+engine = chess.engine.SimpleEngine.popen_uci(r"C:\Users\nsavran19\Desktop\ChessAI\stockfish\stockfish-windows-x86-64-avx2.exe")
 app = Flask(__name__, template_folder='pages')
 app.static_folder = 'static'
 
 current_board = chess.Board()
-#TODO: use below code to apply mirror to pieces
-#current_board = current_board.transform(chess.flip_vertical)
+
+
+
 initial_piece_map = current_board.piece_map()
 
 
@@ -18,7 +22,8 @@ def index():
 
 @app.route('/playOffline')
 def play_offline():
-    return render_template('playOffline.html', piece_map=initial_piece_map)
+    piece_map = current_board.piece_map()
+    return render_template('playOffline.html', piece_map=piece_map)
 
 @app.route('/playWithAI')
 def play_withAI():
@@ -46,13 +51,16 @@ def make_move():
         return jsonify({'success': True, 'new_piece_map': current_board.piece_map(), 'is_checkmate': current_board.is_checkmate()})
     elif move == "AIMove":
         move = getAIMove()
-
+        san_move = current_board.san(move)
+        current_board.push(move)
+        new_piece_map = current_board.piece_map()
+        return jsonify({'success': True, 'new_piece_map': new_piece_map, 'is_checkmate': current_board.is_checkmate(), 'move': san_move})
 
     makeMove = chess.Move.from_uci(move)
     san_move = current_board.san(makeMove)
     if current_board.is_legal(makeMove):
         current_board.push(makeMove)
-        new_piece_map = current_board.piece_map();
+        new_piece_map = current_board.piece_map()
         return jsonify({'success': True, 'new_piece_map': new_piece_map, 'is_checkmate': current_board.is_checkmate(), 'move': san_move})
     else:
         return jsonify({'success': False, 'message': 'Invalid move'})
@@ -76,8 +84,10 @@ def get_possible_moves():
         return jsonify({'piece': None, 'moves': []})
 
 def getAIMove():
-    move_list = [move.uci() for move in current_board.legal_moves]
-    return move_list[0]
+    result = engine.play(current_board, chess.engine.Limit(time=0.1))
+    return result.move
+    """move_list = [move.uci() for move in current_board.legal_moves]
+    return move_list[0]"""
 
 
 if __name__ == '__main__':
