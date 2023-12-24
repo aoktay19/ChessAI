@@ -3,9 +3,7 @@ from flask import Flask, render_template, jsonify, request
 import chess
 import chess.engine
 from chess import Board, Piece
-from stockfish import Stockfish
 
-engine = chess.engine.SimpleEngine.popen_uci(r"C:\Users\ENG128\Desktop\ChessAI\stockfish\stockfish-windows-x86-64-avx2.exe")
 app = Flask(__name__, template_folder='pages')
 app.static_folder = 'static'
 
@@ -51,10 +49,9 @@ def make_move():
         return jsonify({'success': True, 'new_piece_map': current_board.piece_map(), 'is_checkmate': current_board.is_checkmate()})
     elif move == "AIMove":
         move = getAIMove()
-        san_move = current_board.san(move)
-        current_board.push(move)
-        new_piece_map = current_board.piece_map()
-        return jsonify({'success': True, 'new_piece_map': new_piece_map, 'is_checkmate': current_board.is_checkmate(), 'move': san_move})
+        #current_board.push(move)
+        #new_piece_map = current_board.piece_map()
+        #return jsonify({'success': True, 'new_piece_map': new_piece_map, 'is_checkmate': current_board.is_checkmate(), 'move': san_move})
 
     makeMove = chess.Move.from_uci(move)
     san_move = current_board.san(makeMove)
@@ -84,10 +81,9 @@ def get_possible_moves():
         return jsonify({'piece': None, 'moves': []})
 
 def getAIMove():
-    result = engine.play(current_board, chess.engine.Limit(time=0.1))
-    return result.move
-    """move_list = [move.uci() for move in current_board.legal_moves]
-    return move_list[0]"""
+
+    move_list = [move.uci() for move in current_board.legal_moves]
+    return move_list[0]
 
 
 if __name__ == '__main__':

@@ -11,3 +11,5 @@ maç bittikten sonra fen halini verebilir
 Bitiriş ekranını düzelt
 Her hamleden sonra berabere checklesin
 python chess outcome
+
+r"C:\Users\ENG128\Desktop\ChessAI\a.pgn"
