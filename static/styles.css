@@ -218,3 +218,15 @@ button:active {
         margin: 10px 0;
     }
 }
+
+#returnToMainMenu {
+    position: fixed;
+    top: 10px; /* Adjust this value as needed for your layout */
+    left: 10px; /* Adjust this value as needed for your layout */
+    background-color: #525252; /* Background color */
+    border: 1px solid #000000; /* Border color */
+    padding: 5px 10px; /* Padding for better appearance */
+    cursor: pointer;
+    font-size: 20px; /* Adjust font size as needed */
+    color: #ffffff;
+}

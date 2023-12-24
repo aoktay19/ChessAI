@@ -5,7 +5,7 @@ import chess.engine
 from chess import Board, Piece
 from stockfish import Stockfish
 
-engine = chess.engine.SimpleEngine.popen_uci(r"C:\Users\nsavran19\Desktop\ChessAI\stockfish\stockfish-windows-x86-64-avx2.exe")
+engine = chess.engine.SimpleEngine.popen_uci(r"C:\Users\ENG128\Desktop\ChessAI\stockfish\stockfish-windows-x86-64-avx2.exe")
 app = Flask(__name__, template_folder='pages')
 app.static_folder = 'static'
 

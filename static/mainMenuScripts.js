@@ -12,6 +12,11 @@ function playOffline() {
 function openColorSelection() {
     const modal = document.getElementById('colorSelectionModal');
     modal.style.display = 'block';
+    // Attach event listener to the close button ("×")
+    const closeButton = document.getElementById('closeColorSelection');
+    closeButton.addEventListener('click', function() {
+        closeColorSelection(); // Call closeColorSelection when the "×" button is clicked
+    });
 }
 
 function closeColorSelection(color) {
@@ -20,7 +25,7 @@ function closeColorSelection(color) {
     if (color) {
         playWithAI(color);
     } else {
-        window.location.href = "/playWithAI";
+        window.location.href = "/";
     }
 
 }

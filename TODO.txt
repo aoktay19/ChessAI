@@ -1,11 +1,9 @@
 Map flip button
 Map flip after each offline move (maybe)
 Time selection
-Renk seçimi menüsü kapanmıyor kapanırsa da playwithAI açılıyıor
-return to main menu button ekle
 requirements.txt oluştur
 real web app yap local değil Use NETLIFY
-Taş ve tahtayı farklı gösterme şekli bvak
+Taş ve tahtayı farklı gösterme şekli bak
 play vs stockfish konulabilir
 stockfish vs AI konulabilir
 analiz kısmı konulabilir

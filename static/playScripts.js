@@ -286,4 +286,8 @@ function rotateBoard() {
     */
 }
 
+function returnToMainMenu() {
+    window.location.href = "/";
+}
+
 
