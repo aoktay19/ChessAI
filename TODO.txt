@@ -12,4 +12,6 @@ Bitiriş ekranını düzelt
 Her hamleden sonra berabere checklesin
 python chess outcome
 
-r"C:\Users\ENG128\Desktop\ChessAI\a.pgn"
+r"C:\Users\nsavran19\Desktop\ChessAI\a.pgn"
+
+
